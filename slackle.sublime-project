@@ -1,0 +1,11 @@
+{
+	"folders":
+	[
+		{
+			"path": "../app/",
+			"file_exclude_patterns": [
+				"vendor/*"
+			]
+		}
+	]
+}
