@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class EntriesController extends Controller
 {
@@ -22,9 +23,19 @@ class EntriesController extends Controller
 
         if (!$freckle_token) return 'Sorry, I can\'t find a freckle token for your slack user ('.$request->input('user_id').')';
 
+        return $this->freckle($freckle_token);
+
         $text = $request->input('text');
         
         return 'Use this format: `'.$request->input('command').' [time spent][project name] description of what you did`';
+    }
+
+    private function freckle($token = FALSE){
+
+        $client = new Client();
+        $response = $client->get('https://'.env('FRECKLE_SUBDOMAIN').'.letsfreckle.com/api/projects.json?token='.$token);
+
+        echo $response->getBody()->getContents();
     }
 
     private function projects(){
